@@ -312,12 +312,13 @@ final class ModuleManagerPlugin extends AbstractPluginService<ModuleManagerPlugi
                     return true;
                 }
             };
-            final PathFilter filter = getExportClassFilter(resModule);
+            final PathFilter cefPath = getExportClassFilter(resModule);
             ClassFilter classExportFilter = new ClassFilter() {
                 public boolean accept(String className) {
-                    return filter.accept(className);
+                    return cefPath.accept(className);
                 }
             };
+            log.debugf("createLocalDependencySpec: [if=%s,ef=%s,rif=%s,ref=%s,cf=%s]", importFilter, exportFilter, resImportFilter, resExportFilter, cefPath);
             DependencySpec localDep = DependencySpec.createLocalDependencySpec(importFilter, exportFilter, resImportFilter, resExportFilter, classImportFilter, classExportFilter);
             specBuilder.addDependency(localDep);
 
@@ -618,6 +619,7 @@ final class ModuleManagerPlugin extends AbstractPluginService<ModuleManagerPlugi
             }
             Module frameworkModule = getFrameworkModule();
             ModuleLoader depLoader = (frameworkModule.getIdentifier().equals(identifier) ? frameworkModule.getModuleLoader() : getModuleLoader());
+            log.debugf("createModuleDependencySpec: [id=%s,if=%s,ef=%s,loader=%s,optional=%s]", identifier, importFilter, exportFilter, depLoader, optional);
             return DependencySpec.createModuleDependencySpec(importFilter, exportFilter, depLoader, identifier, optional);
         }
 

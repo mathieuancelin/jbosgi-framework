@@ -36,7 +36,7 @@
     <dependencies>
         <dependency>
             <groupId>biz.aQute</groupId>
-            <artifactId>bnd</artifactId>
+            <artifactId>aQute.bnd</artifactId>
         </dependency>
 
         <!-- Test Dependencies -->
@@ -89,6 +89,26 @@
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compendium</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>directory-single</goal>
+						</goals>
+						<configuration>
+							<finalName>test-libs</finalName>
+							<ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>scripts/assembly-compendium.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
